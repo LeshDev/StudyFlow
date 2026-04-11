@@ -2,15 +2,13 @@ package com.example.study;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,8 +20,8 @@ public class Registration extends AppCompatActivity {
 
     private EditText etName, etPass;
     private Button btnRegister;
-    private final String BASE_URL = "https://zrywvgzbeoclvxdrwlmb.supabase.co/";
-    private final String API_KEY = "sb_secret_bFy7IuUUOLVLCQLutf-5Jg_lbi2cR8u";
+    private final String BASE_URL = "";
+    private final String API_KEY = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +62,7 @@ public class Registration extends AppCompatActivity {
                             } else {
                                 switch (response.code()) {
                                     case 409:
-                                        Toast.makeText(Registration.this, "Ошибка: такой пользователь уже есть в системе", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(Registration.this, "Ошибка 409: такой пользователь уже есть в системе", Toast.LENGTH_SHORT).show();
                                         break;
                                     default:
                                         Toast.makeText(Registration.this, "Ошибка: " + response.code(), Toast.LENGTH_SHORT).show();
@@ -78,6 +76,15 @@ public class Registration extends AppCompatActivity {
                             Toast.makeText(Registration.this, "Проверьте интернет", Toast.LENGTH_SHORT).show();
                         }
                     });
+        });
+
+        TextView login = findViewById(R.id.textVoyti);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Registration.this, Login.class);
+                startActivity(intent);
+            }
         });
     }
 }

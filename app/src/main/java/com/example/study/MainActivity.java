@@ -1,8 +1,10 @@
 package com.example.study;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,13 +24,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseMenuActivity {
 
     private RecyclerView rvCalendar, rvSchedule;
     private List<Lesson> allLessons = new ArrayList<>();
     private ScheduleAdapter scheduleAdapter;
+    BottomNavigationView bottomNav;
 
-    // Модель данных для пары
     public static class Lesson {
         String time, name, room;
         int dayOfYear;
@@ -46,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
         rvCalendar = findViewById(R.id.rvCalendar);
         rvSchedule = findViewById(R.id.rvSchedule);
 
-        // 1. Создаем шаблонные данные (пары)
+        // создаем шаблонные данные (пары)
         createMockData();
 
-        // 2. Настраиваем календарь (30 дней)
+        // настраиваем календарь (30 дней)
         List<Date> dates = new ArrayList<>();
         Calendar c = Calendar.getInstance();
         for (int i = 0; i < 30; i++) {
@@ -66,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Сразу показываем пары на сегодня
         filterLessons(Calendar.getInstance().get(Calendar.DAY_OF_YEAR));
+
+        setupMenu();
     }
 
     private void createMockData() {
