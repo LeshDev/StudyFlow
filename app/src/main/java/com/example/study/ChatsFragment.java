@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 public class ChatsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.profile_fragment, container, false);
+        View view = inflater.inflate(R.layout.chats, container, false);
         return view;
     }
 }

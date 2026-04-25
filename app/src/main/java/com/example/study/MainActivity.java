@@ -26,11 +26,13 @@ public class MainActivity extends AppCompatActivity {
                             .commit();
                     return true;
                 }
-//                if (id == R.id.nav_chats) {
-//                    startActivity(new Intent(this, Chats.class));
-//                    return true;
-//                }
-//
+                if (id == R.id.nav_chats) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.container, new ChatsFragment())
+                            .commit();
+                    return true;
+                }
+
                 if (id == R.id.nav_profile) {
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.container, new ProfileFragment())
