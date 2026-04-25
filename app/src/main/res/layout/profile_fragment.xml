@@ -9,8 +9,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -59,7 +58,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="serif-monospace"
-                        android:text="Студент / Профиль"
+                        android:text="Студент алабугага политех / Раб"
                         android:textColor="#8E8E93"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -195,20 +194,4 @@
                 android:textSize="12sp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        app:elevation="8dp"
-        app:itemActiveIndicatorStyle="@null"
-        app:itemIconTint="#8E8E93"
-        app:itemTextColor="#8E8E93"
-        app:labelVisibilityMode="labeled"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

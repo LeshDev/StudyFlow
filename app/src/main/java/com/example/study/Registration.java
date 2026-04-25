@@ -20,8 +20,8 @@ public class Registration extends AppCompatActivity {
 
     private EditText etName, etPass;
     private Button btnRegister;
-    private final String BASE_URL = "";
-    private final String API_KEY = "";
+    private final String BASE_URL = "https://zrywvgzbeoclvxdrwlmb.supabase.co/";
+    private final String API_KEY = "sb_secret_bFy7IuUUOLVLCQLutf-5Jg_lbi2cR8u";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
