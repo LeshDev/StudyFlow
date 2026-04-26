@@ -32,6 +32,13 @@ public class Registration extends AppCompatActivity {
         etPass = findViewById(R.id.editTextPassword);
         btnRegister = findViewById(R.id.btnRegister);
 
+        PreferenceManager prefManager = new PreferenceManager(Registration.this);
+        String savedName = prefManager.getUsername();
+        if (!savedName.equals("Гость")) {
+            Intent intent = new Intent(Registration.this, MainActivity.class);
+            startActivity(intent);
+        }
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -56,10 +63,14 @@ public class Registration extends AppCompatActivity {
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             if (response.isSuccessful()) {
                                 Toast.makeText(Registration.this, "Успешная регистрация!", Toast.LENGTH_LONG).show();
-                                finish();
+                                String name = etName.getText().toString().trim();
+                                prefManager.saveUsername(name);
+
                                 Intent intent = new Intent(Registration.this, MainActivity.class);
                                 startActivity(intent);
-                            } else {
+                                finish();
+                            }
+                            else {
                                 switch (response.code()) {
                                     case 409:
                                         Toast.makeText(Registration.this, "Ошибка 409: такой пользователь уже есть в системе", Toast.LENGTH_SHORT).show();

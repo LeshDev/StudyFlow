@@ -28,6 +28,7 @@ public class Login extends AppCompatActivity {
         EditText etPass = findViewById(R.id.etPassword);
         Button btnLogin = findViewById(R.id.btnLogin);
         TextView tvRegister = findViewById(R.id.textReturn);
+        TextView teachLogin = findViewById(R.id.tvTeacherLogin);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -51,16 +52,40 @@ public class Login extends AppCompatActivity {
                         public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                             if (response.isSuccessful() && response.body() != null) {
                                 if (!response.body().isEmpty()) {
-                                    Toast.makeText(Login.this, "Вход выполнен!", Toast.LENGTH_SHORT).show();
+                                    User user = response.body().get(0);
 
-                                    Intent intent = new Intent(Login.this, MainActivity.class);
-                                    startActivity(intent);
+                                    String role = user.getRole();
+                                    String nameFromDB = response.body().get(0).getUsername();
 
-                                    finish();
-                                } else {
+                                    if (role.equals("student")) {
+
+                                        Toast.makeText(Login.this, "Вход выполнен!", Toast.LENGTH_SHORT).show();
+
+                                        PreferenceManager prefManager = new PreferenceManager(Login.this);
+                                        prefManager.saveUsername(nameFromDB);
+                                        prefManager.saveRole(role);
+
+                                        Intent intent = new Intent(Login.this, MainActivity.class);
+                                        startActivity(intent);
+
+                                        finish();
+                                    }
+                                    else {
+                                        Toast.makeText(Login.this, "Вход выполнен, учитель!", Toast.LENGTH_SHORT).show();
+
+                                        PreferenceManager prefManager = new PreferenceManager(Login.this);
+                                        prefManager.saveUsername(nameFromDB);
+                                        prefManager.saveRole(role);
+
+                                        Intent intent = new Intent(Login.this, MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                                else {
                                     Toast.makeText(Login.this, "Неверное имя или пароль", Toast.LENGTH_SHORT).show();
                                 }
-                            } else {
+                            }
+                            else {
                                 Toast.makeText(Login.this, "Ошибка сервера: " + response.code(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -76,6 +101,11 @@ public class Login extends AppCompatActivity {
             Intent intent = new Intent(Login.this, Registration.class);
             startActivity(intent);
 
+        });
+
+        teachLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(Login.this, TeacherLogin.class);
+            startActivity(intent);
         });
     }
 }

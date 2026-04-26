@@ -39,8 +39,7 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:background="#F5F5F7"
-                        android:padding="16dp"
-                        android:src="@android:drawable/ic_menu_gallery"
+                        android:src="@drawable/cat_icon"
                         app:shapeAppearanceOverlay="@style/CircleImage" />
 
                     <TextView
@@ -55,10 +54,11 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/roleText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="serif-monospace"
-                        android:text="Студент алабугага политех / Раб"
+                        android:text="Ученик / Раб"
                         android:textColor="#8E8E93"
                         android:textSize="14sp" />
                 </LinearLayout>

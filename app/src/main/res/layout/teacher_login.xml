@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="serif-monospace"
-            android:text="Авторизация"
+            android:text="Вход для учителя"
             android:textColor="#000000"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -85,7 +85,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnLoginTeacher"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="32dp"
@@ -99,31 +99,16 @@
         app:layout_constraintTop_toBottomOf="@id/tlPassword" />
 
     <TextView
-        android:id="@+id/textReturn"
+        android:id="@+id/textReturnToStudent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:fontFamily="serif-monospace"
-        android:text="Нет аккаунта? Зарегистрироваться"
-        android:textColor="#5856D6"
-        android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnLogin" />
-
-    <TextView
-        android:id="@+id/tvTeacherLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="serif-monospace"
-        android:text="Вход для преподавателей"
+        android:text="Я ученик — вернуться"
         android:textColor="#8E8E93"
         android:textSize="13sp"
-        android:background="?attr/selectableItemBackground"
-        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textReturn" />
+        app:layout_constraintTop_toBottomOf="@id/btnLoginTeacher" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
