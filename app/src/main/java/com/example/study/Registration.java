@@ -21,7 +21,7 @@ public class Registration extends AppCompatActivity {
     private EditText etName, etPass;
     private Button btnRegister;
     private final String BASE_URL = "https://zrywvgzbeoclvxdrwlmb.supabase.co/";
-    private final String API_KEY = "sb_secret_bFy7IuUUOLVLCQLutf-5Jg_lbi2cR8u";
+    private final String API_KEY = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +95,7 @@ public class Registration extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Registration.this, Login.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Login extends AppCompatActivity {
 
     private final String BASE_URL = "https://zrywvgzbeoclvxdrwlmb.supabase.co/";
-    private final String API_KEY = "sb_secret_bFy7IuUUOLVLCQLutf-5Jg_lbi2cR8u";
+    private final String API_KEY = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +29,8 @@ public class Login extends AppCompatActivity {
         Button btnLogin = findViewById(R.id.btnLogin);
         TextView tvRegister = findViewById(R.id.textReturn);
         TextView teachLogin = findViewById(R.id.tvTeacherLogin);
+
+        PreferenceManager prefManager = new PreferenceManager(Login.this);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -56,6 +58,7 @@ public class Login extends AppCompatActivity {
 
                                     String role = user.getRole();
                                     String nameFromDB = response.body().get(0).getUsername();
+                                    prefManager.saveUserId(user.getId());
 
                                     if (role.equals("student")) {
 
@@ -100,12 +103,13 @@ public class Login extends AppCompatActivity {
         tvRegister.setOnClickListener(v -> {
             Intent intent = new Intent(Login.this, Registration.class);
             startActivity(intent);
-
+            finish();
         });
 
         teachLogin.setOnClickListener(v -> {
             Intent intent = new Intent(Login.this, TeacherLogin.class);
             startActivity(intent);
+            finish();
         });
     }
 }

@@ -33,4 +33,20 @@ public class PreferenceManager {
     public void clear() {
         sharedPreferences.edit().clear().apply();
     }
+
+    public void saveUserId(long id) {
+        sharedPreferences.edit().putLong("user_id", id).apply();
+    }
+
+    public long getUserId() {
+        return sharedPreferences.getLong("user_id", -1);
+    }
+
+    public void saveToken(String token) {
+        sharedPreferences.edit().putString("auth_token", token).apply();
+    }
+
+    public String getToken() {
+        return sharedPreferences.getString("auth_token", "");
+    }
 }
