@@ -1,13 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.Study" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowBackground">#F5F5F7</item>
+        <item name="colorOnSurface">#000000</item>
+        <item name="colorOutline">#D1D1D6</item>
+        <item name="colorPrimary">#000000</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#5856D6</item>
+        <item name="colorError">#FF3B30</item>
     </style>
+
+    <style name="Theme.Study" parent="Base.Theme.Study" />
 
     <style name="CircleImage">
         <item name="cornerSize">50%</item>
     </style>
-
-    <style name="Theme.Study" parent="Base.Theme.Study" />
 </resources>

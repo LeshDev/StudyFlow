@@ -3,6 +3,7 @@ package com.example.study;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -44,14 +46,13 @@ public class RaspFragment extends Fragment {
     private void createMockData() {
         int today = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
         // Сегодня
-
-            allLessons.add(new Lesson(today, "09:00", "Химия", "402"));
-            allLessons.add(new Lesson(today, "10:40", "Высшая мат.", "105"));
+        allLessons.add(new Lesson(Calendar.MONDAY, "09:00", "Химия", "402"));
+        allLessons.add(new Lesson(Calendar.MONDAY, "10:40", "Высшая мат.", "105"));
         // Завтра
-        allLessons.add(new Lesson(today + 1, "09:00", "Физкультура", "Зал"));
-        allLessons.add(new Lesson(today + 1, "12:20", "Информатика", "301"));
+        allLessons.add(new Lesson(Calendar.TUESDAY, "09:00", "Физкультура", "Зал"));
+        allLessons.add(new Lesson(Calendar.TUESDAY, "12:20", "Информатика", "301"));
         // Послезавтра
-        allLessons.add(new Lesson(today + 2, "14:00", "История", "205"));
+        allLessons.add(new Lesson(Calendar.WEDNESDAY, "14:00", "История", "205"));
     }
 
     @Override
@@ -65,20 +66,34 @@ public class RaspFragment extends Fragment {
 
         List<Date> dates = new ArrayList<>();
         Calendar c = Calendar.getInstance();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 365; i++) {
             dates.add(c.getTime());
             c.add(Calendar.DAY_OF_YEAR, 1);
         }
 
         CalendarAdapter calAdapter = new CalendarAdapter(dates);
         rvCalendar.setAdapter(calAdapter);
+        new LinearSnapHelper().attachToRecyclerView(rvCalendar);
 
         scheduleAdapter = new ScheduleAdapter(new ArrayList<>());
         rvSchedule.setAdapter(scheduleAdapter);
 
+        int today = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
+        filterLessons(today);
+
         return view;
     }
 
+    private void filterLessons(int dayOfYear) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_YEAR, dayOfYear);
+        int clickedDay = cal.get(Calendar.DAY_OF_WEEK);
+        List<Lesson> filtered = new ArrayList<>();
+        for (Lesson l : allLessons) {
+            if (l.dayOfYear == clickedDay) filtered.add(l);
+        }
+        if (scheduleAdapter != null) scheduleAdapter.updateList(filtered);
+    }
 
     // адаптер расписания
     private class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.VH> {
@@ -90,22 +105,9 @@ public class RaspFragment extends Fragment {
             notifyDataSetChanged();
         }
 
-        @NonNull @Override public VH onCreateViewHolder(@NonNull ViewGroup p, int t) {
-            LinearLayout card = new LinearLayout(p.getContext());
-            card.setOrientation(LinearLayout.VERTICAL);
-            card.setBackgroundColor(Color.WHITE);
-            card.setPadding(40, 40, 40, 40);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, -2);
-            lp.setMargins(0, 0, 0, 24);
-            card.setLayoutParams(lp);
-
-            TextView t1 = new TextView(p.getContext());
-            t1.setTextSize(17); t1.setTextColor(Color.BLACK); t1.setTypeface(null, Typeface.BOLD);
-            TextView t2 = new TextView(p.getContext());
-            t2.setTextColor(Color.GRAY);
-
-            card.addView(t1); card.addView(t2);
-            return new VH(card, t1, t2);
+        @NonNull @Override public RaspFragment.ScheduleAdapter.VH onCreateViewHolder(@NonNull ViewGroup p, int t) {
+            View v = LayoutInflater.from(p.getContext()).inflate(R.layout.lesson_item, p, false);
+            return new VH(v);
         }
 
         @Override public void onBindViewHolder(@NonNull VH holder, int position) {
@@ -118,38 +120,47 @@ public class RaspFragment extends Fragment {
         class VH extends RecyclerView.ViewHolder {
             TextView title, sub;
             VH(View v, TextView t1, TextView t2) { super(v); title = t1; sub = t2; }
+
+            public VH(View v) {
+                super(v);
+                title = v.findViewById(R.id.tvLessonTitle);
+                sub = v.findViewById(R.id.tvLessonRoom);
+            }
         }
     }
-        // адаптер календаря
+
+    // адаптер календаря
     private class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.VH> {
         private final List<Date> list;
         private int selectedPos = 0;
 
         public CalendarAdapter(List<Date> list) { this.list = list; }
 
-        @NonNull
-        @Override public VH onCreateViewHolder(@NonNull ViewGroup p, int t) {
+        @NonNull @Override public VH onCreateViewHolder(@NonNull ViewGroup p, int t) {
             LinearLayout layout = new LinearLayout(p.getContext());
-            layout.setLayoutParams(new ViewGroup.LayoutParams(160, -2));
+            int screenWidth = p.getResources().getDisplayMetrics().widthPixels;
+            layout.setLayoutParams(new ViewGroup.LayoutParams(screenWidth / 8, -2));
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setPadding(0, 20, 0, 20);
             layout.setGravity(Gravity.CENTER);
 
             TextView name = new TextView(p.getContext());
-            name.setTextSize(12); name.setTextColor(Color.parseColor("#8E8E93"));
+            name.setTextSize(11);
+            name.setTextColor(Color.parseColor("#8E8E93"));
+            name.setGravity(Gravity.CENTER);
+
             TextView num = new TextView(p.getContext());
-            num.setTextSize(16); num.setTypeface(Typeface.SERIF, Typeface.BOLD);
+            num.setTextSize(16);
+            num.setTypeface(Typeface.SERIF, Typeface.BOLD);
+            num.setGravity(Gravity.CENTER);
 
-            layout.addView(name); layout.addView(num);
+            LinearLayout.LayoutParams numLp = new LinearLayout.LayoutParams(100, 100);
+            numLp.topMargin = 10;
+            num.setLayoutParams(numLp);
+
+            layout.addView(name);
+            layout.addView(num);
             return new VH(layout, name, num);
-        }
-
-        private void filterLessons(int dayOfYear) {
-            List<Lesson> filtered = new ArrayList<>();
-            for (Lesson l : allLessons) {
-                if (l.dayOfYear == dayOfYear) filtered.add(l);
-            }
-            scheduleAdapter.updateList(filtered);
         }
 
         @Override public void onBindViewHolder(@NonNull VH holder, int position) {
@@ -157,18 +168,24 @@ public class RaspFragment extends Fragment {
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
 
-            holder.name.setText(new SimpleDateFormat("EE", Locale.getDefault()).format(date));
+            holder.name.setText(new SimpleDateFormat("EE", Locale.getDefault()).format(date).toUpperCase());
             holder.num.setText(new SimpleDateFormat("dd", Locale.getDefault()).format(date));
 
             boolean isSelected = (selectedPos == position);
-            holder.num.setTextColor(isSelected ? Color.BLUE : Color.BLACK);
+
+            if (isSelected) {
+                holder.num.setBackgroundResource(R.drawable.selected_day_bg);
+                holder.num.setTextColor(Color.WHITE);
+            } else {
+                holder.num.setBackground(null);
+                holder.num.setTextColor(Color.BLACK);
+            }
 
             holder.itemView.setOnClickListener(v -> {
                 int old = selectedPos;
                 selectedPos = holder.getAdapterPosition();
                 notifyItemChanged(old);
                 notifyItemChanged(selectedPos);
-
                 filterLessons(cal.get(Calendar.DAY_OF_YEAR));
             });
         }

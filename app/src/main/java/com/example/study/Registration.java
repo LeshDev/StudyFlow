@@ -20,7 +20,7 @@ public class Registration extends AppCompatActivity {
 
     private EditText etName, etPass;
     private Button btnRegister;
-    private final String BASE_URL = "https://zrywvgzbeoclvxdrwlmb.supabase.co/";
+    private final String BASE_URL = "";
     private final String API_KEY = "";
 
     @Override
@@ -37,6 +37,7 @@ public class Registration extends AppCompatActivity {
         if (!savedName.equals("Гость")) {
             Intent intent = new Intent(Registration.this, MainActivity.class);
             startActivity(intent);
+            finish();
         }
 
         Retrofit retrofit = new Retrofit.Builder()

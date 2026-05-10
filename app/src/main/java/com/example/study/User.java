@@ -20,8 +20,6 @@ public class User {
     }
     @SerializedName("student_id")
     private long studentId;
-
-    // Supabase положит данные из таблицы people в этот объект
     @SerializedName("people")
     private User studentData;
 

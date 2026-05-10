@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Login extends AppCompatActivity {
 
-    private final String BASE_URL = "https://zrywvgzbeoclvxdrwlmb.supabase.co/";
+    private final String BASE_URL = "";
     private final String API_KEY = "";
 
     @Override
@@ -28,8 +28,6 @@ public class Login extends AppCompatActivity {
         EditText etPass = findViewById(R.id.etPassword);
         Button btnLogin = findViewById(R.id.btnLogin);
         TextView tvRegister = findViewById(R.id.textReturn);
-        TextView teachLogin = findViewById(R.id.tvTeacherLogin);
-
         PreferenceManager prefManager = new PreferenceManager(Login.this);
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -102,12 +100,6 @@ public class Login extends AppCompatActivity {
 
         tvRegister.setOnClickListener(v -> {
             Intent intent = new Intent(Login.this, Registration.class);
-            startActivity(intent);
-            finish();
-        });
-
-        teachLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(Login.this, TeacherLogin.class);
             startActivity(intent);
             finish();
         });

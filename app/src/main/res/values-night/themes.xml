@@ -1,7 +1,15 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<resources>
     <style name="Base.Theme.Study" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:windowBackground">#1C1C1E</item>
+        <item name="colorSurface">#2C2C2E</item>
+        <item name="colorSurfaceContainer">#2C2C2E</item>
+        <item name="colorOnSurface">#E5E5E7</item>
+        <item name="colorOnSurfaceVariant">#8E8E93</item>
+        <item name="colorPrimary">#F2F2F7</item>
+        <item name="colorOnPrimary">#1C1C1E</item>
+    </style>
+    <style name="Theme.Study" parent="Base.Theme.Study" />
+    <style name="CircleImage">
+        <item name="cornerSize">50%</item>
     </style>
 </resources>

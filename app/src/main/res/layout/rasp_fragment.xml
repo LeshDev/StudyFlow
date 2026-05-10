@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif-monospace"
-                android:text="в StudyFlow"
+                android:text="StudyFlow"
                 android:textColor="#8E8E93"
                 android:textSize="14sp" />
 

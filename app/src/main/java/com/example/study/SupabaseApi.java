@@ -1,6 +1,7 @@
 package com.example.study;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -43,12 +44,18 @@ public interface SupabaseApi {
     Call<List<User>> findStudentByNickname(
             @Header("apikey") String apiKey,
             @Query("username") String nickname,
-            @Query("role") String role // передадим "student"
+            @Query("role") String role
     );
 
     @GET("rest/v1/class_members?select=student_id,people:student_id(id,username)")
     Call<List<User>> getMyStudents(
             @Header("apikey") String apiKey,
             @Query("teacher_id") String eqTeacherId
+    );
+
+    @GET("rest/v1/class_members?select=teacher:teacher_id(username)")
+    Call<List<Map<String, Map<String, String>>>> getMyTeacher(
+            @Header("apikey") String apiKey,
+            @Query("student_id") String eqStudentId
     );
 }

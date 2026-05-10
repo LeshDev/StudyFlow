@@ -26,7 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyStudentsFragment extends Fragment {
     private final String BASE_URL = "https://zrywvgzbeoclvxdrwlmb.supabase.co/";
-    private final String API_KEY = "";
+    private final String API_KEY = "sb_secret_bFy7IuUUOLVLCQLutf-5Jg_lbi2cR8u";
 
     private RecyclerView rvStudents;
     private StudentsAdapter adapter;
