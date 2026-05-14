@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-public class ChatsFragment extends Fragment {
+public class DiaryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.chats, container, false);
+        View view = inflater.inflate(R.layout.diary_fragment, container, false);
         return view;
     }
 }

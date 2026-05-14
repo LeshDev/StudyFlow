@@ -2,7 +2,7 @@
     <style name="Base.Theme.Study" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowBackground">#F5F5F7</item>
         <item name="colorOnSurface">#000000</item>
-        <item name="colorOutline">#D1D1D6</item>
+        <item name="colorOutline">#FFFFFF</item>
         <item name="colorPrimary">#000000</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSecondary">#5856D6</item>

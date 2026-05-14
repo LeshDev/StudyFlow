@@ -16,8 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Login extends AppCompatActivity {
 
-    private final String BASE_URL = "";
-    private final String API_KEY = "";
+    private static final String BASE_URL = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,72 +29,37 @@ public class Login extends AppCompatActivity {
         TextView tvRegister = findViewById(R.id.textReturn);
         PreferenceManager prefManager = new PreferenceManager(Login.this);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        SupabaseApi api = retrofit.create(SupabaseApi.class);
+        StudyFlowApi api = NetworkService.getInstance().getJSONApi();
 
         btnLogin.setOnClickListener(v -> {
             String name = etName.getText().toString().trim();
             String pass = etPass.getText().toString().trim();
 
-            if (name.isEmpty() || pass.isEmpty()) {
-                Toast.makeText(this, "Пожалуйста, заполните все поля", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            User loginData = new User(name, pass);
 
-            api.loginUser(API_KEY, "Bearer " + API_KEY, "eq." + name, "eq." + pass)
-                    .enqueue(new Callback<List<User>>() {
-                        @Override
-                        public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                            if (response.isSuccessful() && response.body() != null) {
-                                if (!response.body().isEmpty()) {
-                                    User user = response.body().get(0);
+            api.loginUser(loginData).enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        User user = response.body();
 
-                                    String role = user.getRole();
-                                    String nameFromDB = response.body().get(0).getUsername();
-                                    prefManager.saveUserId(user.getId());
+                        prefManager.saveUserId(user.getId());
+                        prefManager.saveUsername(user.getUsername());
+                        prefManager.saveRole(user.getRole());
 
-                                    if (role.equals("student")) {
+                        Toast.makeText(Login.this, "Вход выполнен!", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(Login.this, MainActivity.class));
+                        finish();
+                    } else {
+                        Toast.makeText(Login.this, "Неверное имя или пароль", Toast.LENGTH_SHORT).show();
+                    }
+                }
 
-                                        Toast.makeText(Login.this, "Вход выполнен!", Toast.LENGTH_SHORT).show();
-
-                                        PreferenceManager prefManager = new PreferenceManager(Login.this);
-                                        prefManager.saveUsername(nameFromDB);
-                                        prefManager.saveRole(role);
-
-                                        Intent intent = new Intent(Login.this, MainActivity.class);
-                                        startActivity(intent);
-
-                                        finish();
-                                    }
-                                    else {
-                                        Toast.makeText(Login.this, "Вход выполнен, учитель!", Toast.LENGTH_SHORT).show();
-
-                                        PreferenceManager prefManager = new PreferenceManager(Login.this);
-                                        prefManager.saveUsername(nameFromDB);
-                                        prefManager.saveRole(role);
-
-                                        Intent intent = new Intent(Login.this, MainActivity.class);
-                                        startActivity(intent);
-                                    }
-                                }
-                                else {
-                                    Toast.makeText(Login.this, "Неверное имя или пароль", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                            else {
-                                Toast.makeText(Login.this, "Ошибка сервера: " + response.code(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<List<User>> call, Throwable t) {
-                            Toast.makeText(Login.this, "Сбой сети: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    Toast.makeText(Login.this, "Ошибка сети: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         tvRegister.setOnClickListener(v -> {

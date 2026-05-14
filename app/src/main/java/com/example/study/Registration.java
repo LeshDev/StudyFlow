@@ -20,8 +20,7 @@ public class Registration extends AppCompatActivity {
 
     private EditText etName, etPass;
     private Button btnRegister;
-    private final String BASE_URL = "";
-    private final String API_KEY = "";
+    private static final String BASE_URL = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +44,7 @@ public class Registration extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        SupabaseApi api = retrofit.create(SupabaseApi.class);
+        StudyFlowApi api = NetworkService.getInstance().getJSONApi();
 
         btnRegister.setOnClickListener(v -> {
             String name = etName.getText().toString().trim();
@@ -58,10 +57,9 @@ public class Registration extends AppCompatActivity {
 
             User newUser = new User(name, pass);
 
-            api.registerUser(API_KEY, "Bearer " + API_KEY, "application/json", "return=minimal", newUser)
-                    .enqueue(new Callback<Void>() {
+            api.registerUser(newUser).enqueue(new Callback<User>() {
                         @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
+                        public void onResponse(Call<User> call, Response<User> response) {
                             if (response.isSuccessful()) {
                                 Toast.makeText(Registration.this, "Успешная регистрация!", Toast.LENGTH_LONG).show();
                                 String name = etName.getText().toString().trim();
@@ -84,7 +82,7 @@ public class Registration extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
+                        public void onFailure(Call<User> call, Throwable t) {
                             Toast.makeText(Registration.this, "Проверьте интернет", Toast.LENGTH_SHORT).show();
                         }
                     });

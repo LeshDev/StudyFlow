@@ -60,6 +60,7 @@
             android:layout_height="56dp"
             android:layout_marginStart="8dp"
             android:backgroundTint="#000000"
+            android:clickable="true"
             app:cornerRadius="16dp"
             app:icon="@android:drawable/ic_input_add"
             app:iconSize="24dp"

@@ -39,7 +39,7 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:background="#F5F5F7"
-                        android:src="@drawable/cat_icon"
+                        android:src="@drawable/account_circle"
                         app:shapeAppearanceOverlay="@style/CircleImage" />
 
                     <TextView
@@ -48,7 +48,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:fontFamily="serif-monospace"
-                        android:text="тута ваше имя.."
+                        android:text="Имя.."
                         android:textColor="#000000"
                         android:textSize="22sp"
                         android:textStyle="bold" />
@@ -101,7 +101,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/accessible_forward"
+                            android:src="@drawable/account_circle"
                             app:tint="#000000" />
                         <TextView
                             android:layout_width="0dp"

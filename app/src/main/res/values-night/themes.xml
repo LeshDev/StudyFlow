@@ -1,6 +1,7 @@
 <resources>
     <style name="Base.Theme.Study" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowBackground">#1C1C1E</item>
+        <item name="colorOutline">#2C2C2E</item>
         <item name="colorSurface">#2C2C2E</item>
         <item name="colorSurfaceContainer">#2C2C2E</item>
         <item name="colorOnSurface">#E5E5E7</item>

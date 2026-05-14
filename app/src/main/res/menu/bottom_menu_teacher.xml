@@ -14,7 +14,7 @@
         android:title="Мои ученики" />
     <item
         android:id="@+id/nav_homework"
-        android:icon="@android:drawable/ic_menu_myplaces"
+        android:icon="@drawable/outline_alternate_email_24"
         android:title="Задать ДЗ" />
     <item
         android:id="@+id/nav_profile"

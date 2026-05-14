@@ -78,16 +78,16 @@ public class MainActivity extends AppCompatActivity {
             if ("teacher".equals(userRole)) {
                 switch (position) {
                     case 0: return new RaspFragment();
-                    case 1: return new ChatsFragment();
+                    case 1: return new DiaryFragment();
                     case 2: return new MyStudentsFragment();
-                    case 3: return new ChatsFragment();
+                    case 3: return new DiaryFragment();
                     case 4: return new ProfileFragment();
                     default: return new RaspFragment();
                 }
             } else {
                 switch (position) {
                     case 0: return new RaspFragment();
-                    case 1: return new ChatsFragment();
+                    case 1: return new DiaryFragment();
                     case 2: return new ProfileFragment();
                     default: return new RaspFragment();
                 }

@@ -25,19 +25,17 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyStudentsFragment extends Fragment {
-    private final String BASE_URL = "https://zrywvgzbeoclvxdrwlmb.supabase.co/";
-    private final String API_KEY = "sb_secret_bFy7IuUUOLVLCQLutf-5Jg_lbi2cR8u";
-
+    private static final String BASE_URL = "";
     private RecyclerView rvStudents;
     private StudentsAdapter adapter;
-    private SupabaseApi api;
+    private StudyFlowApi api;
     private PreferenceManager prefManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_students_fragment, container, false);
 
-        rvStudents = view.findViewById(R.id.rvStudents); // Добавь его в XML макета!
+        rvStudents = view.findViewById(R.id.rvStudents);
         rvStudents.setLayoutManager(new LinearLayoutManager(getContext()));
 
         Button btnAddStudent = view.findViewById(R.id.btnAddStudent);
@@ -48,7 +46,7 @@ public class MyStudentsFragment extends Fragment {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        api = retrofit.create(SupabaseApi.class);
+        api = NetworkService.getInstance().getJSONApi();
 
         loadStudents();
 
@@ -56,7 +54,7 @@ public class MyStudentsFragment extends Fragment {
             String nickname = etSearchStudent.getText().toString().trim();
             if (nickname.isEmpty()) return;
 
-            api.findStudentByNickname(API_KEY, "eq." + nickname, "eq.student").enqueue(new Callback<List<User>>() {
+            api.findStudentByNickname(etSearchStudent.getText().toString()).enqueue(new Callback<List<User>>() {
                 @Override
                 public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                     if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
@@ -75,7 +73,7 @@ public class MyStudentsFragment extends Fragment {
     }
 
     private void loadStudents() {
-        api.getMyStudents(API_KEY, "eq." + prefManager.getUserId()).enqueue(new Callback<List<User>>() {
+        api.getMyStudents(prefManager.getUserId()).enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -89,7 +87,7 @@ public class MyStudentsFragment extends Fragment {
 
     private void linkStudent(long tId, long sId, TextInputEditText et) {
         ClassMember link = new ClassMember(tId, sId);
-        api.addStudentToTeacher(API_KEY, "Bearer " + API_KEY, link).enqueue(new Callback<ResponseBody>() {
+        api.addStudentToTeacher(link).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
@@ -116,9 +114,16 @@ public class MyStudentsFragment extends Fragment {
         }
 
         @Override public void onBindViewHolder(@NonNull VH holder, int pos) {
-            User studentRelation = list.get(pos);
-            if (studentRelation.getStudentData() != null) {
-                holder.name.setText(studentRelation.getStudentData().getUsername());
+            User student = list.get(pos);
+            if (student != null) {
+                // Выводим в лог ник, чтобы понять, дошли ли данные
+                android.util.Log.d("STUDY_DEBUG", "Ник ученика: " + student.getUsername());
+
+                if (student.getUsername() != null) {
+                    holder.name.setText(student.getUsername());
+                } else {
+                    holder.name.setText("Без имени (id: " + student.getId() + ")");
+                }
             }
         }
 

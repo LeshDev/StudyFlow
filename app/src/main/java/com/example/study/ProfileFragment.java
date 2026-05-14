@@ -19,8 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileFragment extends Fragment {
 
-    private final String BASE_URL = "";
-    private final String API_KEY = "";
+    private static final String BASE_URL = "";
     private TextView teacherName;
 
     @Override
@@ -56,32 +55,23 @@ public class ProfileFragment extends Fragment {
     }
 
     private void loadTeacher(long studentId) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        StudyFlowApi api = NetworkService.getInstance().getJSONApi();
 
-        SupabaseApi api = retrofit.create(SupabaseApi.class);
+        api.getMyTeacher(studentId).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    teacherName.setText(response.body().getUsername());
+                }
+                else {
+                    teacherName.setText("Не назначен");
+                }
+            }
 
-        api.getMyTeacher(API_KEY, "eq." + studentId)
-                .enqueue(new Callback<List<Map<String, Map<String, String>>>>() {
-                    @Override
-                    public void onResponse(@NonNull Call<List<Map<String, Map<String, String>>>> call,
-                                           @NonNull Response<List<Map<String, Map<String, String>>>> response) {
-                        if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                            Map<String, String> data = response.body().get(0).get("teacher");
-                            if (data != null) {
-                                teacherName.setText(data.get("username"));
-                            }
-                        } else {
-                            teacherName.setText("Не назначен");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<List<Map<String, Map<String, String>>>> call, @NonNull Throwable t) {
-                        teacherName.setText("Ошибка сети");
-                    }
-                });
+            @Override
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                teacherName.setText("Ошибка сервера");
+            }
+        });
     }
 }
