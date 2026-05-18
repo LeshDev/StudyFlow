@@ -84,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
                     case 4: return new ProfileFragment();
                     default: return new RaspFragment();
                 }
-            } else {
+            }
+            else {
                 switch (position) {
                     case 0: return new RaspFragment();
                     case 1: return new DiaryFragment();

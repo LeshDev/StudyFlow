@@ -8,27 +8,42 @@
     app:cardElevation="4dp">
 
     <LinearLayout
+        android:id="@+id/student"
+        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:gravity="center_vertical"
-        app:cardCornerRadius="24dp">
+        android:gravity="center_vertical">
 
-        <View
+        <ImageView
+            android:id="@+id/ivStudentAvatar"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="@drawable/account_circle"
-            android:backgroundTint="#000000"/>
+            android:src="@drawable/account_circle"
+            app:tint="#424242"/>
 
         <TextView
             android:id="@+id/tvStudentName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:text="Имя ученика"
             android:textColor="#000000"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:ellipsize="end"
+            android:maxLines="1" />
+
+        <ImageButton
+            android:id="@+id/btnDeleteStudent"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/delete"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="#D32F2F" />
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

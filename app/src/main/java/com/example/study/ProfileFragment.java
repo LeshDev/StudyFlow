@@ -18,8 +18,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileFragment extends Fragment {
-
-    private static final String BASE_URL = "";
     private TextView teacherName;
 
     @Override
@@ -50,6 +48,28 @@ public class ProfileFragment extends Fragment {
             startActivity(new Intent(getActivity(), Registration.class));
             getActivity().finish();
         });
+
+        if ("student".equals(prefManager.getRole())) {
+            roleText.setText("Ученик");
+            long myId = prefManager.getUserId();
+            if (myId != -1) {
+                loadTeacher(myId);
+
+                if (savedInstanceState == null) {
+                    getChildFragmentManager().beginTransaction()
+                            .replace(R.id.studentMarksContainer, StudentMarksFragment.newInstance(myId))
+                            .commit();
+                }
+            }
+        }
+        else {
+            roleText.setText("Учитель");
+            teacherName.setText("Вы учитель");
+            View marksContainer = view.findViewById(R.id.studentMarksContainer);
+            if (marksContainer != null) {
+                marksContainer.setVisibility(View.GONE);
+            }
+        }
 
         return view;
     }

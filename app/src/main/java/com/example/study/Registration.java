@@ -20,7 +20,7 @@ public class Registration extends AppCompatActivity {
 
     private EditText etName, etPass;
     private Button btnRegister;
-    private static final String BASE_URL = "";
+    public static final String BASE_URL = "http://100.91.165.12:8080/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
